@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using HotelBooking.BusinessLogic;
 using HotelBooking.Models;
+using HotelBooking.UnitTests.DataGenerators;
 using HotelBooking.UnitTests.Fakes;
 using Moq;
 using Xunit;
@@ -12,7 +13,7 @@ namespace HotelBooking.UnitTests
     {
         private IBookingManager bookingManager;
 
-        public BookingManagerTests(){
+        public BookingManagerTests() {
             DateTime start = DateTime.Today.AddDays(10);
             DateTime end = DateTime.Today.AddDays(20);
             //IRepository<Booking> bookingRepository = new FakeBookingRepository(start, end);
@@ -35,13 +36,12 @@ namespace HotelBooking.UnitTests
             Assert.Throws<ArgumentException>(() => bookingManager.FindAvailableRoom(date, date));
         }
 
-        [Fact]
-        public void FindAvailableRoom_RoomAvailable_RoomIdNotMinusOne()
+        [Theory]
+        [ClassData(typeof(TestBookingDataGenerator))]
+        public void FindAvailableRoom_RoomAvailable_RoomIdNotMinusOne(DateTime startDate, DateTime endDate)
         {
-            // Arrange
-            DateTime date = DateTime.Today.AddDays(1);
             // Act
-            int roomId = bookingManager.FindAvailableRoom(date, date);
+            int roomId = bookingManager.FindAvailableRoom(startDate, endDate);
             // Assert
             Assert.NotEqual(-1, roomId);
         }
@@ -66,6 +66,5 @@ namespace HotelBooking.UnitTests
             // Assert
             Assert.NotNull(occupied);
         }
-
     }
 }
