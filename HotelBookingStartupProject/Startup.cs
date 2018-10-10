@@ -7,6 +7,8 @@ using HotelBooking.Models;
 using HotelBooking.Data;
 using HotelBooking.Data.Repositories;
 using HotelBooking.BusinessLogic;
+using HotelBooking.BusinessLogic.Managers;
+using HotelBooking.Models.Managers;
 using HotelBookingStartupProject.Models;
 
 namespace HotelBooking
@@ -32,8 +34,8 @@ namespace HotelBooking
             services.AddScoped<IRepository<Customer>, CustomerRepository>();
             services.AddScoped<IRepository<Booking>, BookingRepository>();
             services.AddScoped<IBookingManager, BookingManager>();
-            services.AddScoped<IBookingViewModel, BookingViewModel>();
-
+            services.AddScoped<ICostumerManager, CustomerManager>();
+            services.AddScoped<IBookingViewModel, BookingViewModel>();           
             services.AddMvc();
 
         }

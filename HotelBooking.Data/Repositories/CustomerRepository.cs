@@ -16,17 +16,19 @@ namespace HotelBooking.Data.Repositories
 
         public void Add(Customer entity)
         {
-            throw new NotImplementedException();
+            this.db.Customer.Add(entity);
+            this.db.SaveChanges();
         }
 
         public void Edit(Customer entity)
         {
-            throw new NotImplementedException();
+            this.db.Customer.Update(entity);
+            this.db.SaveChanges();
         }
 
         public Customer Get(int id)
         {
-            throw new NotImplementedException();
+            return this.db.Customer.Find(id);
         }
 
         public IEnumerable<Customer> GetAll()
@@ -35,8 +37,8 @@ namespace HotelBooking.Data.Repositories
         }
 
         public void Remove(int id)
-        {
-            throw new NotImplementedException();
+        {            
+            this.db.Customer.Remove(this.Get(id));
         }
     }
 }
