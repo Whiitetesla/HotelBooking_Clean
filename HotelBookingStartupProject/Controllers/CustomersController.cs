@@ -1,23 +1,29 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HotelBooking.Models;
+using HotelBooking.Models.Managers;
 
 namespace HotelBooking.Controllers
 {
     public class CustomersController : Controller
     {
-        private IRepository<Customer> repository;
+        
+        private readonly ICostumerManager _customerManager;
 
-        public CustomersController(IRepository<Customer> repos)
+        public CustomersController(ICostumerManager customerManager)
         {
-            repository = repos;
+            if(customerManager == null)
+                throw new ArgumentNullException(nameof(customerManager));
+
+            this._customerManager = customerManager;            
         }
 
         // GET: Customers
         public IActionResult Index()
         {
-            return View(repository.GetAll().ToList());
+            return View(this._customerManager.GetAllCustomers());
         }
 
         // GET: Customers/Details/5
@@ -28,7 +34,7 @@ namespace HotelBooking.Controllers
                 return NotFound();
             }
 
-            Customer customer = repository.Get(id.Value);
+            Customer customer = this._customerManager.GetCustomer(id.Value);
             if (customer == null)
             {
                 return NotFound();
@@ -52,7 +58,7 @@ namespace HotelBooking.Controllers
         {
             if (ModelState.IsValid)
             {
-                repository.Add(customer);
+                this._customerManager.AddCustomer(customer);
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
@@ -66,7 +72,7 @@ namespace HotelBooking.Controllers
                 return NotFound();
             }
 
-            Customer customer = repository.Get(id.Value);
+            Customer customer = this._customerManager.GetCustomer(id.Value);
             if (customer == null)
             {
                 return NotFound();
@@ -90,11 +96,11 @@ namespace HotelBooking.Controllers
             {
                 try
                 {
-                    repository.Edit(customer);
+                    this._customerManager.EditCustomer(customer);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (repository.Get(customer.Id) == null)
+                    if (this._customerManager.GetCustomer(customer.Id) == null)
                     {
                         return NotFound();
                     }
@@ -116,7 +122,7 @@ namespace HotelBooking.Controllers
                 return NotFound();
             }
 
-            Customer customer = repository.Get(id.Value);
+            Customer customer = this._customerManager.GetCustomer(id.Value);
             if (customer == null)
             {
                 return NotFound();
@@ -130,7 +136,7 @@ namespace HotelBooking.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            repository.Remove(id);
+            this._customerManager.RemoveCustomer(id);
             return RedirectToAction(nameof(Index));
         }
 
