@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HotelBooking.Models;
-using HotelBooking.BusinessLogic;
 using HotelBookingStartupProject.Models;
 
 namespace HotelBooking.Controllers
@@ -66,12 +65,9 @@ namespace HotelBooking.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool created = bookingManager.CreateBooking(booking);
+                bookingManager.CreateBooking(booking);
 
-                if (created)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
+                return RedirectToAction(nameof(Index));
             }
 
             ViewData["CustomerId"] = new SelectList(customerRepository.GetAll(), "Id", "Name", booking.CustomerId);

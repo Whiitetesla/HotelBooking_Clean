@@ -8,6 +8,7 @@ namespace HotelBooking.BusinessLogic
     public class BookingManager : IBookingManager
     {
         private IRepository<Booking> bookingRepository;
+        private IRepository<Customer> customerRepository;
         private IRepository<Room> roomRepository;
 
         // Constructor injection
@@ -17,7 +18,7 @@ namespace HotelBooking.BusinessLogic
             this.roomRepository = roomRepository;
         }
 
-        public bool CreateBooking(Booking booking)
+        public void CreateBooking(Booking booking)
         {
             int roomId = FindAvailableRoom(booking.StartDate, booking.EndDate);
 
@@ -26,11 +27,10 @@ namespace HotelBooking.BusinessLogic
                 booking.RoomId = roomId;
                 booking.IsActive = true;
                 bookingRepository.Add(booking);
-                return true;
             }
             else
             {
-                return false;
+                throw new Exception();
             }
         }
 
