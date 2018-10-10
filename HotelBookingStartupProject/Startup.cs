@@ -35,6 +35,7 @@ namespace HotelBooking
             services.AddScoped<IRepository<Booking>, BookingRepository>();
             services.AddScoped<IBookingManager, BookingManager>();
             services.AddScoped<ICostumerManager, CustomerManager>();
+            services.AddScoped<IRoomManager, RoomManager>();
             services.AddScoped<IBookingViewModel, BookingViewModel>();           
             services.AddMvc();
 

@@ -2,37 +2,30 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HotelBooking.Models;
+using HotelBooking.BusinessLogic;
 
 namespace HotelBooking.Controllers
 {
     public class RoomsController : Controller
     {
-        private IRepository<Room> repository;
+        private RoomManager _roomManager;
 
-        public RoomsController(IRepository<Room> repos)
+        public RoomsController(RoomManager roomManager)
         {
-            repository = repos;
+            this._roomManager = roomManager;
         }
 
         // GET: Rooms
         public IActionResult Index()
         {
-            return View(repository.GetAll().ToList());
+            var rooms = _roomManager.GetAll();
+            return View(rooms);
         }
 
         // GET: Rooms/Details/5
         public IActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Room room = repository.Get(id.Value);
-            if (room == null)
-            {
-                return NotFound();
-            }
+            var room = _roomManager.Details(id);
 
             return View(room);
         }
@@ -52,7 +45,7 @@ namespace HotelBooking.Controllers
         {
             if (ModelState.IsValid)
             {
-                repository.Add(room);
+                _roomManager.Add(room);
                 return RedirectToAction(nameof(Index));
             }
             return View(room);
@@ -61,17 +54,9 @@ namespace HotelBooking.Controllers
         // GET: Rooms/Edit/5
         public IActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            _roomManager.Edit(id);
 
-            Room room = repository.Get(id.Value);
-            if (room == null)
-            {
-                return NotFound();
-            }
-            return View(room);
+            return View(id);
         }
 
         // POST: Rooms/Edit/5
@@ -81,48 +66,16 @@ namespace HotelBooking.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, [Bind("Id,Description")] Room room)
         {
-            if (id != room.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    repository.Edit(room);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (repository.Get(room.Id) == null)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(room);
+            _roomManager.Edit(id, room);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Rooms/Delete/5
         public IActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            _roomManager.Delete(id);
 
-            Room room = repository.Get(id.Value);
-            if (room == null)
-            {
-                return NotFound();
-            }
-
-            return View(room);
+            return View(id);
         }
 
         // POST: Rooms/Delete/5
@@ -130,8 +83,7 @@ namespace HotelBooking.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            if (id > 0)
-                repository.Remove(id);
+            _roomManager.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
