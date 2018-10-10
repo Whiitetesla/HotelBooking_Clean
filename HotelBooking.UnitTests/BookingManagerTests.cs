@@ -48,7 +48,7 @@ namespace HotelBooking.UnitTests
         }
 
         [Fact]
-        public void FindAvailableRoom_RoomAvailable_RoomIdNotMinusOne111()
+        public void CreateBooking_newEmptyBooking_thowsExeption()
         {
             // Arrange
             // Act
@@ -57,7 +57,7 @@ namespace HotelBooking.UnitTests
         }
 
         [Fact]
-        public void FindAvailableRoom_RoomAvailable_RoomIdNotMinusOne112()
+        public void GetFullyOccupiedDates_getAllOccupied_notNull()
         {
             // Arrange
             DateTime startDate = DateTime.Today.AddDays(1);
