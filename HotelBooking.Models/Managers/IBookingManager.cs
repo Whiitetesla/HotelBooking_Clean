@@ -9,5 +9,8 @@ namespace HotelBooking.Models
         void CreateBooking(Booking booking);
         int FindAvailableRoom(DateTime startDate, DateTime endDate);
         List<DateTime> GetFullyOccupiedDates(DateTime startDate, DateTime endDate);
+        Booking GetBooking(int id);
+        void EditBooking(Booking booking);
+        void RemoveBooking(int id);
     }
 }

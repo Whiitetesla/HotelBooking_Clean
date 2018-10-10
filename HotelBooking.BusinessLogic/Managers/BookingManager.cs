@@ -8,7 +8,6 @@ namespace HotelBooking.BusinessLogic
     public class BookingManager : IBookingManager
     {
         private IRepository<Booking> bookingRepository;
-        private IRepository<Customer> customerRepository;
         private IRepository<Room> roomRepository;
 
         // Constructor injection
@@ -34,6 +33,11 @@ namespace HotelBooking.BusinessLogic
             }
         }
 
+        public void EditBooking(Booking booking)
+        {
+            bookingRepository.Edit(booking);
+        }
+
         public int FindAvailableRoom(DateTime startDate, DateTime endDate)
         {
             if (startDate <= DateTime.Today || startDate > endDate)
@@ -50,6 +54,11 @@ namespace HotelBooking.BusinessLogic
                 }
             }
             return -1;
+        }
+
+        public Booking GetBooking(int id)
+        {
+            return bookingRepository.Get(id);
         }
 
         public List<DateTime> GetFullyOccupiedDates(DateTime startDate, DateTime endDate)
@@ -75,5 +84,9 @@ namespace HotelBooking.BusinessLogic
             return fullyOccupiedDates;
         }
 
+        public void RemoveBooking(int id)
+        {
+            bookingRepository.Remove(id);
+        }
     }
 }
