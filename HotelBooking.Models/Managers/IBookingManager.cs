@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HotelBooking.BusinessLogic
+namespace HotelBooking.Models
 {
     public interface IBookingManager
     {
