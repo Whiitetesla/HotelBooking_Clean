@@ -13,12 +13,13 @@ namespace HotelBooking.UnitTests
         private Mock<IRepository<Room>> _roomRepositoryMock;
         private IRoomManager _roomManager;
 
-
+   
         public RoomManagerTests()
         {
             this._roomRepositoryMock = new Mock<IRepository<Room>>();
 
             this._roomManager = new RoomManager(this._roomRepositoryMock.Object);
+            
         }
 
         [Fact]
@@ -28,49 +29,48 @@ namespace HotelBooking.UnitTests
         }
 
         [Fact]
-        public void Add()
+        public void AddRoom_RoomNull_NullReference()
         {
             Room room = null;
 
-            Assert.Throws<ArgumentNullException>(() => this._roomManager.Add(room));
+            Assert.Throws<NullReferenceException>(() => this._roomManager.Add(room));
         }
 
         [Fact]
-        public void Details()
+        public void Details_IdNull_NullReference()
         {
-            int id = 0;
-            Assert.Throws<ArgumentOutOfRangeException>(() => this._roomManager.Edit(id));
-
+            int? id = null;
+            Assert.Throws<NullReferenceException>(() => this._roomManager.Details(id));
         }
 
         [Fact]
-        public void Edit()
+        public void Get_RoomNull_NullReference()
         {
-            int id = 0;
-            Assert.Throws<ArgumentOutOfRangeException>(() => this._roomManager.Edit(id));
-        }
-        [Fact]
-        public void Edit2()
-        {
-            int id = 0;
             Room room = null;
+            Assert.Throws<NullReferenceException>(() => this._roomManager.Get(room.Id));
+        }
+
+        [Fact]
+        public void Edit_IdNull_OutOfRange()
+        {
+            int? id = null;
+            Assert.Throws<NullReferenceException>(() => this._roomManager.Edit(id));
+        }
+
+        [Fact]
+        public void Delete_IdNull_NullReference()
+        {
+            int? id = null;
+            Assert.Throws<NullReferenceException>(() => this._roomManager.Delete(id));
+        }
+
+        [Fact]
+        public void Edit_IdNotEqualRoomId_OutOfRange()
+        {
+            int id = 4;
+            Room room = new Room();
+            room.Id = 2;
             Assert.Throws<ArgumentOutOfRangeException>(() => this._roomManager.Edit(id, room));
-        }
-
-        [Fact]
-        public void Delete()
-        {
-            int id = -10;
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => this._roomManager.Delete(id));
-        }
-
-        [Fact]
-        public void DeleteConfirmed()
-        {
-            int id = -10;
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => this._roomManager.Delete(id));
         }
 
     }

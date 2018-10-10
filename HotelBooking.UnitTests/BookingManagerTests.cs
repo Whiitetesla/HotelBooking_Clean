@@ -23,7 +23,6 @@ namespace HotelBooking.UnitTests
 
             bookingRepository.Setup(x => x.GetAll()).Returns(new FakeBookingRepository(start, end).GetAll());
             roomRepository.Setup(x => x.GetAll()).Returns(new FakeRoomRepository().GetAll());
-
             bookingRepository.Setup(x => x.Get(It.IsAny<int>())).Returns(new FakeBookingRepository(start, end).Get(1));
 
             bookingManager = new BookingManager(bookingRepository.Object, roomRepository.Object);

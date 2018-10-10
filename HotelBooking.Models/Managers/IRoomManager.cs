@@ -7,6 +7,7 @@ namespace HotelBooking.Models
     public interface IRoomManager
     {
         IEnumerable<Room> GetAll();
+        Room Get(int id);
         void Add(Room room);
         int Details(int? id);
         void Edit(int? id);

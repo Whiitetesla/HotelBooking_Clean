@@ -93,7 +93,11 @@ namespace HotelBooking.BusinessLogic
                 throw new NullReferenceException();
             }
             _repository.Edit(room);
+        }
 
+        public Room Get(int id)
+        {
+            return _repository.Get(id);
         }
     }
 }

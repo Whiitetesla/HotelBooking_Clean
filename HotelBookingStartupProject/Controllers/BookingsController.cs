@@ -10,15 +10,15 @@ namespace HotelBooking.Controllers
 {
     public class BookingsController : Controller
     {
-        private IRepository<Room> roomRepository;
+        private IRoomManager roomManager;
         private ICostumerManager customerManager;
         private IBookingManager bookingManager;
         private IBookingViewModel bookingViewModel;
 
-        public BookingsController(IRepository<Booking> bookingRepos, IRepository<Room> roomRepos,
-            ICostumerManager costManager ,IBookingManager manager, IBookingViewModel viewModel)
+        public BookingsController(IRoomManager roomMan, ICostumerManager costManager 
+                                ,IBookingManager manager, IBookingViewModel viewModel)
         {
-            this.roomRepository = roomRepos;
+            this.roomManager = roomMan;
             this.customerManager = costManager;
             this.bookingManager = manager;
             this.bookingViewModel = viewModel;
@@ -88,7 +88,7 @@ namespace HotelBooking.Controllers
                 return NotFound();
             }
             ViewData["CustomerId"] = new SelectList(customerManager.GetAllCustomers(), "Id", "Name", booking.CustomerId);
-            ViewData["RoomId"] = new SelectList(roomRepository.GetAll(), "Id", "Description", booking.RoomId);
+            ViewData["RoomId"] = new SelectList(roomManager.GetAll(), "Id", "Description", booking.RoomId);
             return View(booking);
         }
 
@@ -124,7 +124,7 @@ namespace HotelBooking.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CustomerId"] = new SelectList(customerManager.GetAllCustomers(), "Id", "Name", booking.CustomerId);
-            ViewData["RoomId"] = new SelectList(roomRepository.GetAll(), "Id", "Description", booking.RoomId);
+            ViewData["RoomId"] = new SelectList(roomManager.GetAll(), "Id", "Description", booking.RoomId);
             return View(booking);
         }
 
