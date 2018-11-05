@@ -17,7 +17,7 @@ namespace HotelBooking.BusinessLogic
             this.roomRepository = roomRepository;
         }
 
-        public void CreateBooking(Booking booking)
+        public bool CreateBooking(Booking booking)
         {
             int roomId = FindAvailableRoom(booking.StartDate, booking.EndDate);
 
@@ -26,10 +26,12 @@ namespace HotelBooking.BusinessLogic
                 booking.RoomId = roomId;
                 booking.IsActive = true;
                 bookingRepository.Add(booking);
+
+                return true;
             }
             else
             {
-                throw new Exception();
+                return false;
             }
         }
 
@@ -40,8 +42,8 @@ namespace HotelBooking.BusinessLogic
 
         public int FindAvailableRoom(DateTime startDate, DateTime endDate)
         {
-            if (startDate <= DateTime.Today || startDate > endDate)
-                throw new ArgumentException("The start date cannot be in the past or later than the end date.");
+            if (startDate > endDate)
+                return -1;
 
             var activeBookings = bookingRepository.GetAll().Where(b => b.IsActive);
             foreach (var room in roomRepository.GetAll())

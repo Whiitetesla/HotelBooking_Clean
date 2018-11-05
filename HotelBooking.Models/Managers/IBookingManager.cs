@@ -6,7 +6,7 @@ namespace HotelBooking.Models
 {
     public interface IBookingManager
     {
-        void CreateBooking(Booking booking);
+        bool CreateBooking(Booking booking);
         int FindAvailableRoom(DateTime startDate, DateTime endDate);
         List<DateTime> GetFullyOccupiedDates(DateTime startDate, DateTime endDate);
         Booking GetBooking(int id);
