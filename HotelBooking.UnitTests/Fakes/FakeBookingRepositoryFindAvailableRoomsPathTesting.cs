@@ -1,15 +1,16 @@
-﻿using HotelBooking.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using HotelBooking.Models;
 
 namespace HotelBooking.UnitTests.Fakes
 {
-    public class FakeBookingRepository : IRepository<Booking>
+    public class FakeBookingRepositoryFindAvailableRoomsPathTesting : IRepository<Booking>
     {
         private DateTime fullyOccupiedStartDate;
         private DateTime fullyOccupiedEndDate;
 
-        public FakeBookingRepository(DateTime start, DateTime end)
+        public FakeBookingRepositoryFindAvailableRoomsPathTesting(DateTime start, DateTime end)
         {
             fullyOccupiedStartDate = start;
             fullyOccupiedEndDate = end;
@@ -42,8 +43,7 @@ namespace HotelBooking.UnitTests.Fakes
         {
             List<Booking> bookings = new List<Booking>
             {
-                new Booking { Id=1, StartDate=fullyOccupiedStartDate, EndDate=fullyOccupiedEndDate, IsActive=true, CustomerId=1, RoomId=1 },
-                new Booking { Id=2, StartDate=fullyOccupiedStartDate, EndDate=fullyOccupiedEndDate, IsActive=true, CustomerId=2, RoomId=2 },
+                 
             };
             return bookings;
         }
@@ -52,7 +52,7 @@ namespace HotelBooking.UnitTests.Fakes
         {
             List<Booking> bookings = new List<Booking>
             {
-                
+
             };
             return bookings;
         }
