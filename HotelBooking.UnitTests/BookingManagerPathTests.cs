@@ -66,6 +66,7 @@ namespace HotelBooking.UnitTests
 
             Assert.Equal(-1, bookingManager.FindAvailableRoom(start, end));
         }
+        
 
         /// <summary>
         /// This tests equals the third testpath defined from DD path testing.
@@ -85,12 +86,18 @@ namespace HotelBooking.UnitTests
             Assert.Equal(-1, bookingManager.FindAvailableRoom(start, end));
         }
 
+
+        //Because of miltiple conditions inside the if statement,
+        //it is nessary to test every prosible outcome within resonable boundaries,
+        //for this case
+
         /// <summary>
+        /// Case 1
         /// This tests equals the fourth testpath defined from DD path testing.
         /// Test returns a room ID when finding a room inside of the loop, at line 55.
         /// </summary>
         [Fact]
-        public void FindAvailableRooms_FoundARoom_FourthPath()
+        public void FindAvailableRoomsCase1_FoundARoom_FourthPath()
         {            
             DateTime start = DateTime.Today.AddDays(10);
             DateTime end = DateTime.Today.AddDays(20);
@@ -109,6 +116,114 @@ namespace HotelBooking.UnitTests
             
             int roomId = bookingManager.FindAvailableRoom(bookingDateStart, bookingDateEnd);            
             Assert.NotEqual(-1, roomId);           
+        }
+
+        /// <summary>
+        /// Case 2
+        /// This tests equals the fourth testpath defined from DD path testing.
+        /// Test returns a room ID when finding a room inside of the loop, at line 55.
+        /// </summary>
+        [Fact]
+        public void FindAvailableRoomsCase2_FoundARoom_FourthPath()
+        {
+            DateTime start = DateTime.Today.AddDays(10);
+            DateTime end = DateTime.Today.AddDays(20);
+
+            Mock<IRepository<Booking>> bookingRepository = new Mock<IRepository<Booking>>();
+            Mock<IRepository<Room>> roomRepository = new Mock<IRepository<Room>>();
+
+            bookingRepository.Setup(x => x.GetAll()).Returns(new FakeBookingRepository(start, end).GetAll());
+            roomRepository.Setup(x => x.GetAll()).Returns(new FakeRoomRepository().GetAll());
+            bookingRepository.Setup(x => x.Get(It.IsAny<int>())).Returns(new FakeBookingRepository(start, end).Get(1));
+
+            bookingManager = new BookingManager(bookingRepository.Object, roomRepository.Object);
+
+            var bookingDateStart = DateTime.Today.AddDays(6);
+            var bookingDateEnd = DateTime.Today.AddDays(11);
+
+            int roomId = bookingManager.FindAvailableRoom(bookingDateStart, bookingDateEnd);
+            Assert.Equal(-1, roomId);
+        }
+
+        /// <summary>
+        /// Case 3
+        /// This tests equals the fourth testpath defined from DD path testing.
+        /// Test returns a room ID when finding a room inside of the loop, at line 55.
+        /// </summary>
+        [Fact]
+        public void FindAvailableRoomsCase3_FoundARoom_FourthPath()
+        {
+            DateTime start = DateTime.Today.AddDays(10);
+            DateTime end = DateTime.Today.AddDays(20);
+
+            Mock<IRepository<Booking>> bookingRepository = new Mock<IRepository<Booking>>();
+            Mock<IRepository<Room>> roomRepository = new Mock<IRepository<Room>>();
+
+            bookingRepository.Setup(x => x.GetAll()).Returns(new FakeBookingRepository(start, end).GetAll());
+            roomRepository.Setup(x => x.GetAll()).Returns(new FakeRoomRepository().GetAll());
+            bookingRepository.Setup(x => x.Get(It.IsAny<int>())).Returns(new FakeBookingRepository(start, end).Get(1));
+
+            bookingManager = new BookingManager(bookingRepository.Object, roomRepository.Object);
+
+            var bookingDateStart = DateTime.Today.AddDays(13);
+            var bookingDateEnd = DateTime.Today.AddDays(15);
+
+            int roomId = bookingManager.FindAvailableRoom(bookingDateStart, bookingDateEnd);
+            Assert.Equal(-1, roomId);
+        }
+
+        /// <summary>
+        /// Case 4
+        /// This tests equals the fourth testpath defined from DD path testing.
+        /// Test returns a room ID when finding a room inside of the loop, at line 55.
+        /// </summary>
+        [Fact]
+        public void FindAvailableRoomsCase4_FoundARoom_FourthPath()
+        {
+            DateTime start = DateTime.Today.AddDays(10);
+            DateTime end = DateTime.Today.AddDays(20);
+
+            Mock<IRepository<Booking>> bookingRepository = new Mock<IRepository<Booking>>();
+            Mock<IRepository<Room>> roomRepository = new Mock<IRepository<Room>>();
+
+            bookingRepository.Setup(x => x.GetAll()).Returns(new FakeBookingRepository(start, end).GetAll());
+            roomRepository.Setup(x => x.GetAll()).Returns(new FakeRoomRepository().GetAll());
+            bookingRepository.Setup(x => x.Get(It.IsAny<int>())).Returns(new FakeBookingRepository(start, end).Get(1));
+
+            bookingManager = new BookingManager(bookingRepository.Object, roomRepository.Object);
+
+            var bookingDateStart = DateTime.Today.AddDays(17);
+            var bookingDateEnd = DateTime.Today.AddDays(13);
+
+            int roomId = bookingManager.FindAvailableRoom(bookingDateStart, bookingDateEnd);
+            Assert.Equal(-1, roomId);
+        }
+
+        /// <summary>
+        /// Case 5
+        /// This tests equals the fourth testpath defined from DD path testing.
+        /// Test returns a room ID when finding a room inside of the loop, at line 55.
+        /// </summary>
+        [Fact]
+        public void FindAvailableRoomsCase5_FoundARoom_FourthPath()
+        {
+            DateTime start = DateTime.Today.AddDays(10);
+            DateTime end = DateTime.Today.AddDays(20);
+
+            Mock<IRepository<Booking>> bookingRepository = new Mock<IRepository<Booking>>();
+            Mock<IRepository<Room>> roomRepository = new Mock<IRepository<Room>>();
+
+            bookingRepository.Setup(x => x.GetAll()).Returns(new FakeBookingRepository(start, end).GetAll());
+            roomRepository.Setup(x => x.GetAll()).Returns(new FakeRoomRepository().GetAll());
+            bookingRepository.Setup(x => x.Get(It.IsAny<int>())).Returns(new FakeBookingRepository(start, end).Get(1));
+
+            bookingManager = new BookingManager(bookingRepository.Object, roomRepository.Object);
+
+            var bookingDateStart = DateTime.Today.AddDays(22);
+            var bookingDateEnd = DateTime.Today.AddDays(25);
+
+            int roomId = bookingManager.FindAvailableRoom(bookingDateStart, bookingDateEnd);
+            Assert.NotEqual(-1, roomId);
         }
 
         /// <summary>
