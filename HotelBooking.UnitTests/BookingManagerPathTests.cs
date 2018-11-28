@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using HotelBooking.BusinessLogic;
 using HotelBooking.Models;
+using HotelBooking.UnitTests.DataGenerators;
 using HotelBooking.UnitTests.Fakes;
 using Moq;
 using Xunit;
@@ -273,19 +274,19 @@ namespace HotelBooking.UnitTests
         /// <summary>
         /// This tests equals the third testpath defined from DD path testing.
         /// Test returns an empty list in the first if statement. in the loop
-        /// Line 77.
+        /// Line 82.
         /// </summary>
-        [Fact]
-        public void GetFullyOccupiedDates_NoOccupiedDates_ThirdPath()
+        [Theory]
+        [ClassData(typeof(TestBookingPathDataGenerator))]
+        public void GetFullyOccupiedDates_NoOccupiedDates_ThirdPath(List<Booking> bookings)
         {
             DateTime start = DateTime.Today.AddDays(10);
-            DateTime end = DateTime.Today.AddDays(11);
+            DateTime end = DateTime.Today.AddDays(20);
 
             Mock<IRepository<Booking>> bookingRepository = new Mock<IRepository<Booking>>();
             Mock<IRepository<Room>> roomRepository = new Mock<IRepository<Room>>();
 
-            bookingRepository.Setup(x => x.GetAll()).Returns(new List<Booking>()
-                                                        { new FakeBookingRepository(start, end).Get(1) });
+            bookingRepository.Setup(x => x.GetAll()).Returns(bookings);
             roomRepository.Setup(x => x.GetAll()).Returns(new FakeRoomRepository().GetAll());
             bookingRepository.Setup(x => x.Get(It.IsAny<int>())).Returns(new FakeBookingRepository(start, end).Get(1));
 
@@ -295,9 +296,9 @@ namespace HotelBooking.UnitTests
         }
 
         /// <summary>
-        /// This tests equals the third testpath defined from DD path testing.
+        /// This tests equals the fourth testpath defined from DD path testing.
         /// Test returns a list with some elements in the first if statement. in the loop
-        /// Line 77.
+        /// Line 82.
         /// </summary>
         [Fact]
         public void GetFullyOccupiedDates_FoundOccupiedDates_FourthPath()
